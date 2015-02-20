@@ -1,0 +1,5 @@
+- /etc/random.seed on a read-only medium? what's the alternative for
+  randomness seeding? where is randomnewss an issue on a firewall anyway?
+  SSHD, ipsec
+- disklabel: the offset is not correctly set (1 cylinder left for MBR and
+  boot code in fdisk, but not in disklabel).

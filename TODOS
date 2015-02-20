@@ -1,0 +1,9 @@
+- strip from debugging symbols binaries and libraries
+- install a customized/optimized kernel (currently we take the one
+  from the master/builder)
+- possibility to set root password, for now we copy the one
+  from the builder/master
+- minimize and check permissions. passwd and group entires
+- local logging and/or remote logging to monitoring station?
+- sensors
+- SNMP

@@ -1,0 +1,37 @@
+echo ifnet: bringing up interfaces
+
+ifconfig re0 195.226.5.130 netmask 255.255.255.248 description "Cyberlink DSL link"
+ifconfig re1 up description "S18 external DMZ bridge"
+ifconfig re2 192.168.100.1 netmask 255.255.255.0 description "S18 protected DMZ"
+
+# the external interface and the DMZ form a bridge
+
+echo bridge: configuring the bridge interfaces
+
+ifconfig bridge0 create
+ifconfig bridge0 add re0
+ifconfig bridge0 add re1
+
+ifconfig bridge0 blocknonip re0
+ifconfig bridge0 blocknonip re1
+
+ifconfig bridge0 up
+
+echo route: adding default route...
+
+# default route is the Cyberlink DSL box
+route add default 195.226.5.129
+
+echo route: adding static routes...
+
+# S18 internal network
+route add -net 192.168.0.0/24 192.168.100.2
+
+# WLAN management network
+route add -net 192.168.10.0/24 192.168.100.2
+
+# WLAN restricted network
+route add -net 192.168.20.0/24 192.168.100.2
+
+# WLAN guest network
+route add -net 192.168.30.0/24 192.168.100.2

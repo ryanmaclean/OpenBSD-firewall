@@ -1,0 +1,29 @@
+#	$OpenBSD: hosts,v 1.11 2002/09/26 23:35:51 krw Exp $
+#
+# Host Database
+#
+# RFC 1918 specifies that these networks are "internal".
+# 10.0.0.0      10.255.255.255
+# 172.16.0.0    172.31.255.255
+# 192.168.0.0   192.168.255.255
+#
+::1		localhost.eurospider.ch	localhost
+127.0.0.1	localhost.eurospider.ch	localhost
+::1		acheron.eurospider.ch	acheron
+127.0.0.1	acheron.eurospider.ch	acheron
+
+192.168.100.2	styx.eurospider.ch	styx
+
+192.168.0.31	smtp.eurospider.ch	smtp
+192.168.0.31	mailbox.eurospider.ch	mailbox
+192.168.0.22	fozzie.eurospider.ch	fozzie
+192.168.0.21	zaurak.eurospider.ch	zaurak
+192.168.0.23	zaurak-svn.eurospider.ch	zaurak-svn
+192.168.0.11	bunsen.eurospider.ch	bunsen
+
+195.226.5.130	S18-gw.eurospider.ch	S18-gw
+195.226.5.131	charon.eurospider.ch	charon
+195.226.5.131	lxh01.eurospider.ch	lxh01
+195.226.5.132	lxh02.eurospider.ch	lxh02
+195.226.5.133	lxh03.eurospider.ch	lxh03
+195.226.5.134	lxh04.eurospider.ch	lxh04

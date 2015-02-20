@@ -1,0 +1,4 @@
+# dhcp relay (S18restricted and S18guest)
+echo dhcp: starting relay...
+dhcrelay -i vlan2 192.168.0.11 192.168.0.10
+dhcrelay -i vlan1 192.168.0.11 192.168.0.10
