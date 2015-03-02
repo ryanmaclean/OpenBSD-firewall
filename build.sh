@@ -186,12 +186,15 @@ cp -R /usr/sbin/dev_mkdb $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/dhcrelay $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/dig $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ftp-proxy $MOUNTPOINT/usr/sbin/.
+cp -R /usr/sbin/named $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ntpctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ntpd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/pwd_mkdb $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/rdate $MOUNTPOINT/usr/sbin/.
+cp -R /usr/sbin/rndc $MOUNTPOINT/usr/sbin/.
+cp -R /usr/sbin/rndc-confgen $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/sensorsd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/snmpctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/snmpd $MOUNTPOINT/usr/sbin/.
