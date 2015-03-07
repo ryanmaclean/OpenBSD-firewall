@@ -7,3 +7,9 @@
 - local logging and/or remote logging to monitoring station?
 - sensors
 - SNMP
+- package installation without pkg_add (just untar and copy):
+  - joe
+    - libiconv
+      - gettext
+  - wol
+- find, xargs
