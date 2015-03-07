@@ -13,3 +13,4 @@
       - gettext
   - wol
 - find, xargs
+- /etc/named
