@@ -279,8 +279,6 @@ cp -R template/etc/ttys $MOUNTPOINT/etc/.
 cp -R template/etc/pf.os $MOUNTPOINT/etc/.
 cp -R template/etc/syslog.conf $MOUNTPOINT/etc/.
 cp -R template/etc/resolv.conf $MOUNTPOINT/etc/.
-cp -R template/etc/ntpd.conf $MOUNTPOINT/etc/.
-cp -R template/etc/dhclient.conf $MOUNTPOINT/etc/.
 cp -R template/etc/tabs $MOUNTPOINT/etc/.
 chmod 0600 $MOUNTPOINT/etc/tabs/*
 cp -R template/etc/newsyslog.conf $MOUNTPOINT/etc/.
@@ -294,10 +292,25 @@ echo "Installing specific configuration for $HOSTNAME."
 
 cp -R config/$HOSTNAME/hosts $MOUNTPOINT/etc/.
 cp -R config/$HOSTNAME/networks $MOUNTPOINT/etc/.
+cp -R config/$HOSTNAME/dhclient.conf $MOUNTPOINT/etc/.
 cp -R config/$HOSTNAME/pf.conf $MOUNTPOINT/etc/.
 m4 -DHOSTNAME=$HOSTNAME template/etc/rc >  $MOUNTPOINT/etc/rc
 if test -f config/$HOSTNAME/dhcpd.conf; then
 	cp -R config/$HOSTNAME/dhcpd.conf $MOUNTPOINT/etc/.
+fi
+
+# when we want joe instead of vi (I do)
+cp -R config/$HOSTNAME/ntpd.conf $MOUNTPOINT/etc/.
+if test -d config/$HOSTNAME/joe/; then
+	cp -R config/$HOSTNAME/joe $MOUNTPOINT/etc/.
+fi
+
+# when we run a DNS server (currently still bind)
+if test -d config/$HOSTNAME/named/; then
+	cp -R config/$HOSTNAME/named $MOUNTPOINT/etc/.
+fi
+if test -f config/$HOSTNAME/rndc.conf; then
+	cp -R config/$HOSTNAME/rndc.conf $MOUNTPOINT/etc/.
 fi
 
 echo "Generating databases."
@@ -309,8 +322,6 @@ echo "Generating SSH keys."
 
 ssh-keygen -b 2048 -t rsa -f $MOUNTPOINT/etc/ssh/ssh_host_rsa_key -N ''
 chmod 400 $MOUNTPOINT/etc/ssh/ssh_host_rsa_key
-
-echo "Installing specific configuration."
 
 echo "Cleaning up."
 

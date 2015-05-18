@@ -1,0 +1,34 @@
+; internal LAN
+
+$ORIGIN .
+
+$TTL 60
+
+lan	IN		SOA	obr.lan. root.obr.lan. (
+				2015033000	; serial
+				3h		; refresh
+				15m		; retry
+				1w		; expire
+				60		; minimum TTL
+			)
+
+			IN	NS		obr.lan.
+
+$ORIGIN lan.
+
+obr			A		192.168.1.1
+europa1			A		192.168.1.2
+europa4			A		192.168.1.5 
+europa5			A		192.168.1.6
+europa6			A		192.168.1.7
+eeepc			A		192.168.1.8
+eurodata		A		192.168.1.9
+eeepc-wifi		A		192.168.1.10
+euroserver		A		192.168.1.12
+europa10		A		192.168.1.13
+eurodock		A		192.168.1.14
+euroweb			A		192.168.1.15
+eurobeam		A		192.168.1.16
+eurohp1			A		192.168.1.17
+wrt2			A		192.168.1.253
+wrt1			A		192.168.1.254

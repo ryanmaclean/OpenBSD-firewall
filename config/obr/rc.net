@@ -1,4 +1,29 @@
 echo ifnet: bringing up interfaces
 
-# iWay requires us to use DHCP though we have a static IP
-dhclient em0
+# vr0: uplink, iWay requires us to use DHCP though we have a static IP
+
+dhclient vr0
+
+# vr1: bridge to vr2
+
+ifconfig vr1 up description "LAN bridge"
+ 
+ifconfig bridge0 create
+ifconfig bridge0 add vr1
+ifconfig bridge0 add vr2 
+
+ifconfig bridge0 blocknonip vr1
+ifconfig bridge0 blocknonip vr2
+
+ifconfig bridge0 up
+
+# athn0: wireless bridged to LAN
+
+ifconfig athn0 mode 11g chan 10 mediaopt hostap nwid Fornost wpakey wfpwd@home wpaprotos wpa2 up
+
+ifconfig bridge0 add athn0
+
+# vr2: internal protected network (internal networks inside in 192.168.1.0/24)
+
+ifconfig vr2 192.168.1.1 netmask 255.255.255.0 description "LAN internal"
+route add -net 192.168.1.0/24 192.168.1.1

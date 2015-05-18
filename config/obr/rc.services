@@ -1,0 +1,10 @@
+echo named: starting Bind name server..
+/usr/sbin/named
+
+echo dhcp: starting DHCP server...
+touch /var/db/dhcpd.leases
+chown _dhcp:_dhcp /var/db/dhcpd.leases
+/usr/sbin/dhcpd -c /etc/dhcpd.conf vr2 
+
+echo ftp-proxy: starting FTP proxy...
+/usr/sbin/ftp-proxy -R 192.168.1.9

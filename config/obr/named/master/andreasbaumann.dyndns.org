@@ -1,0 +1,17 @@
+; reroute zone for andreasbaumann.dyndns.org
+
+$TTL 60
+
+@		IN	SOA	ns.andreasbaumann.dyndns.org. root.obr.lan. (
+				2015030501	; serial
+				3h		; refresh
+				15m		; retry
+				1w		; expire
+				60		; minimum TTL
+			)
+
+		NS		ns
+	IN	NS		ns.andreasbaumann.dyndns.org.
+	IN	A		192.168.1.12
+ns	IN	A		192.168.1.12
+
