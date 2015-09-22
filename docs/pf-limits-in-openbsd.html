@@ -1,0 +1,201 @@
+
+   [1]<- Previous [2]Home [3]Next ->
+
+PF Limits in OpenBSD
+
+   This article documents one of several insidious little gotchas I've
+   encountered using OpenBSD systems in a core-router/firewall capacity in
+   lieu of Cisco 2851 or Juniper j4350 class hardware. Specifically,
+   various hard memory limits built into PF, which, when encountered,
+   cause PF to stop accepting new connections.
+
+   Incidently, [4]here is the story of how I wound up replacing the
+   preponderant quantity of my networking gear with openBSD and saved
+   metric-oodles of coinage.
+
+   Anyway, the upshot is that if you use OpenBSD with PF in a production
+   environment and you aren't aware of PF's memory limit (especially the
+   state-related memory limits), you have a ticking time-bomb on your
+   network. Just FYI.
+
+   I'd been playing with OpenBSD for fun, in low-budget side projects, and
+   non-prod environments for years before that fateful day that I ran into
+   the state-table limit like a brick wall.
+
+   It was shortly after I'd replaced the cisco-based core routing
+   infrastructure of our Headquarters building with OpenBSD. It presented
+   as a sort of network "glitch". You know, the unexplainable little
+   connectivity loss that only affects one user. Probably his cable, or
+   wall socket. But then it was two or three users, and then it was a user
+   whose connectivity was working fine, except for he couldn't create new
+   ssh connections suddenly (wha?). It was gone as quickly as it appeared,
+   and never seemed to adhere to any sort of consistent set of symptoms.
+   It was quite maddening.
+
+   At some point I noticed that if I was quick enough, I could catch a "no
+   route to host" error message from PF on the console of the core
+   routers, and that's when I really started looking at them in earnest.
+
+   It turns out, as I've already said, the kernel keeps memory set aside
+   for PF to do things like create state tables and state table entries.
+   In my case I was hitting the limit on the total number of states PF was
+   allowed to track at once. This meant that new connections would fail
+   with no route to host until some other state expired and made room for
+   the new one. This looked downright wierd troublshooting from the
+   outside because protocols like HTTP (which are stateless) would still
+   work pretty well, while others like SSH (which requires a constant
+   connection) were more likely to have problems.
+
+   You can see the default sizes of these limits using pfctl -sm:
+# pfctl -sm
+states        hard limit    10000
+src-nodes     hard limit    10000
+frags         hard limit     5000
+tables        hard limit     1000
+table-entries hard limit   200000
+
+   These are pretty sane defaults for most people who are running OpenBSD
+   routers, which is to say, nerds who have wedged it on to their
+   [5]soekris board or the wrt54 they found at the second-hand store, or
+   the 8086 they found under the sink in their dad's house.
+
+   If you're running production routers on real hardware you're going to
+   want to raise those a bit. And by `bit' I mean like two orders of
+   magnitude. Do this with a line in your pf.conf that looks something
+   like this:
+
+   set limit { states 1000000, frags 1000000, src-nodes 100000, tables
+   1000000, table-entries 1000000 }
+
+   You can check to see if you've ever hit one of these limits with pfctl
+   -si, which displayes the values for a whole bunch of couters tracked by
+   PF:
+[dave@a][~]--> sudo pfctl -si
+Status: Enabled for 686 days 01:20:03            Debug: err
+
+State Table                          Total             Rate
+    current entries                    39401
+    searches                    587674569722         9914.3/s
+    inserts                      23981800145          404.6/s
+    removals                     23981760744          404.6/s
+Counters
+    match                        24166482278          407.7/s
+    bad-offset                             0            0.0/s
+    fragment                               0            0.0/s
+    short                                  0            0.0/s
+    normalize                           1282            0.0/s
+    memory                                 0            0.0/s
+    bad-timestamp                          0            0.0/s
+    congestion                           204            0.0/s
+    ip-option                         433656            0.0/s
+    proto-cksum                            0            0.0/s
+    state-mismatch                    135709            0.0/s
+    state-insert                           0            0.0/s
+    state-limit                            0            0.0/s
+    src-limit                              0            0.0/s
+    synproxy                               0            0.0/s
+
+   If you have RRDTool installed, you can use this shell script to push
+   some of these values into an RRD (or repurpose it to feed collectd or
+   gmond or whatever):
+#!/usr/local/bin/bash
+
+gawk="/usr/local/bin/gawk"
+pfctl="/sbin/pfctl"
+rrdtool="/usr/local/bin/rrdtool"
+RRDHOME='/home/pcap/rrd'
+
+pfctl_info() {
+    local output=$($pfctl -si 2>&1)
+    local temp=$(echo "$output" | $gawk '
+        BEGIN {BytesIn=0; BytesOut=0; PktsInPass=0; PktsInBlock=0; \
+               PktsOutPass=0; PktsOutBlock=0; States=0; StateSearchs=0; \
+               StateInserts=0; StateRemovals=0}
+        /Bytes In/ { BytesIn = $3 }
+        /Bytes Out/ { BytesOut = $3 }
+        /Packets In/ { getline;PktsInPass = $2 }
+        /Passed/ { getline;PktsInBlock = $2 }
+        /Packets Out/ { getline;PktsOutPass = $2 }
+        /Passed/ { getline;PktsOutBlock = $2 }
+        /current entries/ { States = $3 }
+        /searches/ { StateSearchs = $2 }
+        /inserts/ { StateInserts = $2 }
+        /removals/ { StateRemovals = $2 }
+        END {print BytesIn ":" BytesOut ":" PktsInPass ":" \
+             PktsInBlock ":" PktsOutPass ":" PktsOutBlock ":" \
+             States ":" StateSearchs ":" StateInserts ":" StateRemovals}
+        ')
+    RETURN_VALUE=$temp
+}
+
+### collect the data
+pfctl_info
+
+### update the database
+$rrdtool update ${RRDHOME}/pf_stats_db.rrd --template BytesIn:BytesOut:PktsInPas
+s:PktsInBlock:PktsOutPass:PktsOutBlock:States:StateSearchs:StateInserts:StateRem
+ovals N:$RETURN_VALUE
+
+   And then use the following to draw graphs from it:
+#!/bin/sh
+
+RRDHOME='/home/pcap/rrd'
+cd ${RRDHOME}
+
+#####
+######## pf state rate graph
+/usr/local/bin/rrdtool graph pf_stats_states.png \
+-w 785 -h 151 -a PNG \
+--slope-mode \
+--start -86400 --end now \
+--font DEFAULT:7: \
+--title "pf state rate" \
+--watermark "`date`" \
+--vertical-label "states/sec" \
+--right-axis-label "searches/sec" \
+--right-axis 100:0 \
+--x-grid MINUTE:10:HOUR:1:MINUTE:120:0:%R \
+--alt-y-grid --rigid \
+DEF:StateInserts=pf_stats_db.rrd:StateInserts:MAX \
+DEF:StateRemovals=pf_stats_db.rrd:StateRemovals:MAX \
+DEF:StateSearchs=pf_stats_db.rrd:StateSearchs:MAX \
+CDEF:scaled_StateSearchs=StateSearchs,0.01,* \
+DEF:States=pf_stats_db.rrd:States:MAX \
+CDEF:scaled_States=States,0.01,* \
+AREA:StateInserts#33CC33:"inserts" \
+GPRINT:StateInserts:LAST:"Cur\: %5.2lf" \
+GPRINT:StateInserts:AVERAGE:"Avg\: %5.2lf" \
+GPRINT:StateInserts:MAX:"Max\: %5.2lf" \
+GPRINT:StateInserts:MIN:"Min\: %5.2lf\t\t" \
+LINE1:scaled_StateSearchs#FF0000:"searches" \
+GPRINT:StateSearchs:LAST:"Cur\: %5.2lf" \
+GPRINT:StateSearchs:AVERAGE:"Avg\: %5.2lf" \
+GPRINT:StateSearchs:MAX:"Max\: %5.2lf" \
+GPRINT:StateSearchs:MIN:"Min\: %5.2lf\n" \
+LINE1:StateRemovals#0000CC:"removal" \
+GPRINT:StateRemovals:LAST:"Cur\: %5.2lf" \
+GPRINT:StateRemovals:AVERAGE:"Avg\: %5.2lf" \
+GPRINT:StateRemovals:MAX:"Max\: %5.2lf" \
+GPRINT:StateRemovals:MIN:"Min\: %5.2lf\t\t" \
+LINE1:scaled_States#00F0F0:"States" \
+GPRINT:States:LAST:"Cur\: %5.2lf" \
+GPRINT:States:AVERAGE:"Avg\: %5.2lf" \
+GPRINT:States:MAX:"Max\: %5.2lf" \
+GPRINT:States:MIN:"Min\: %5.2lf\n"
+
+   which will yield you a pretty, two-axis graph like the one below which
+   should help you avoid limits in the future.
+
+   PF State Graph
+   [6]<- Previous [7]Home [8]Next ->
+
+References
+
+   1. http://www.skeptech.org/blog/2013/01/13/unscrewed-a-story-about-openbsd/
+   2. http://www.skeptech.org/
+   3. http://www.skeptech.org/blog/2013/03/28/unhappy-bean-factory/
+   4. http://www.skeptech.org/blog/2013/01/13/unscrewed-a-story-about-openbsd/
+   5. http://soekris.com/
+   6. http://www.skeptech.org/blog/2013/01/13/unscrewed-a-story-about-openbsd/
+   7. http://www.skeptech.org/
+   8. http://www.skeptech.org/blog/2013/03/28/unhappy-bean-factory/
