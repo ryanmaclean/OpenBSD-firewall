@@ -34,6 +34,7 @@ echo "Sectors/track: $SECTORS_PER_TRACK"
 echo "Tracks/cylinder: $TRACKS_PER_CYLINDER"
 echo "Sectors/cylinder: $SECTORES_PER_CYLINDER"
 echo "Cylinders: $CYLINDERS"
+echo "Offset: $OFFSET"
 echo "Number of sectors: $nof_sectors"
 
 echo "Clean up from previous invocations."
@@ -61,8 +62,9 @@ EOF
 echo "Setting up BSD disklabel."
 
 # leave first cylinder empty for MBR and boot code
-astart=`expr $SECTORS_PER_TRACK`
-asize=`expr $nof_sectors - $SECTORS_PER_TRACK`
+#astart=`expr $SECTORS_PER_TRACK`
+astart=$OFFSET
+asize=`expr $nof_sectors - $SECTORS_PER_TRACK - $astart`
 
 cat > /tmp/disklabel.$$ <<EOF
 type: ESDI
@@ -75,7 +77,7 @@ cylinders: $CYLINDERS
 total sectors: $nof_sectors
 
   a:           $asize                $astart     4.2BSD  1024    8192    16
-  c:           120960                0  unused
+  c:           $nof_sectors          0  unused
 EOF
 
 disklabel -R $DEVICE /tmp/disklabel.$$
