@@ -1,3 +1,11 @@
+History
+-------
+
+Earlier versions of this project was used at Eurospider by 
+Mihai Barbos to build corporate style firewalls with Portwell
+machines. I merely collected the ideas and updated them to
+new versions of OpenBSD.
+
 Install
 -------
 
@@ -115,5 +123,3 @@ Links
 http://home.nuug.no/~peter/pf/en/long-firewall.html and his "Book of PF".
 
 Manpages of OpenBSD.
-
-Aba, 30.1.2015
