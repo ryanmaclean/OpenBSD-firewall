@@ -2,8 +2,10 @@ History
 -------
 
 Earlier versions of this project was used at Eurospider by 
-Mihai Barbos to build corporate style firewalls with Portwell
-machines. I merely collected the ideas and updated them to
+Mihai Barbos (https://github.com/mbarbos) to build 
+corporate-style firewalls with Portwell hardware.
+
+I merely collected the ideas and updated them to
 new versions of OpenBSD.
 
 Install
