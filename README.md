@@ -126,3 +126,6 @@ Links
 http://home.nuug.no/~peter/pf/en/long-firewall.html and his "Book of PF".
 
 Manpages of OpenBSD.
+
+limit handling in production (connection states):
+http://www.skeptech.org/blog/2013/01/15/pf-limits-in-openbsd/
