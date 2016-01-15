@@ -44,6 +44,17 @@ dd if=&lt;machine&gt;.image | ssh &lt;machine&gt; "dd of=/dev/wd1c"
 - config: machine-specific confiugration (e.g. pf.conf)
 - hardware: flash disk geometry for specific machines
 
+## Roadmap
+
+- update to OpenBSD 5.8
+  - this mainly means moving away from `bind` to `nsd` and `unbound`
+- improve update process, preferably an in-situ update via TFTP
+- deal with logging
+  - sensord
+  - remote syslog
+- various playgronds
+  - ospf, pfsync, carp
+    
 ## Other Embedded OpenBSD projects
 
 possible small OpenBSD makers (low level):
