@@ -5,10 +5,10 @@ $ORIGIN .
 $TTL 60
 
 lan	IN		SOA	obr.lan. root.obr.lan. (
-				2015033000	; serial
+				2016010800	; serial
 				3h		; refresh
 				15m		; retry
-				1w		; expire
+				2w		; expire
 				60		; minimum TTL
 			)
 
@@ -18,7 +18,7 @@ $ORIGIN lan.
 
 obr			A		192.168.1.1
 europa1			A		192.168.1.2
-europa4			A		192.168.1.5 
+eurobuild2		A		192.168.1.5 
 europa5			A		192.168.1.6
 europa6			A		192.168.1.7
 eeepc			A		192.168.1.8
@@ -26,9 +26,13 @@ eurodata		A		192.168.1.9
 eeepc-wifi		A		192.168.1.10
 euroserver		A		192.168.1.12
 europa10		A		192.168.1.13
-eurodock		A		192.168.1.14
+eurobuild1		A		192.168.1.14
 euroweb			A		192.168.1.15
-eurobeam		A		192.168.1.16
+europrint		A		192.168.1.16
 eurohp1			A		192.168.1.17
+eurobuild3		A		192.168.1.18
+euroobr			A		192.168.1.19
 wrt2			A		192.168.1.253
 wrt1			A		192.168.1.254
+iway-gateway		A		83.150.2.1
+rpmaster		CNAME		wrt2
