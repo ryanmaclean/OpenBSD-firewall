@@ -300,9 +300,9 @@ m4 -DHOSTNAME=$HOSTNAME template/etc/rc >  $MOUNTPOINT/etc/rc
 if test -f config/$HOSTNAME/dhcpd.conf; then
 	cp -R config/$HOSTNAME/dhcpd.conf $MOUNTPOINT/etc/.
 fi
+cp -R config/$HOSTNAME/ntpd.conf $MOUNTPOINT/etc/.
 
 # when we want joe instead of vi (I do)
-cp -R config/$HOSTNAME/ntpd.conf $MOUNTPOINT/etc/.
 if test -d config/$HOSTNAME/joe/; then
 	cp -R config/$HOSTNAME/joe $MOUNTPOINT/etc/.
 fi
