@@ -115,7 +115,7 @@ chmod +t $MOUNTPOINT/tmp
 echo "Populating /dev filesystem with minimal set up startup devices."
 
 cp -R /dev/MAKEDEV $MOUNTPOINT/dev/.
-( cd $MOUNTPOINT/dev && ./MAKEDEV std wd0 random crypto pf bpf ttyC0 tty00 )
+( cd $MOUNTPOINT/dev && ./MAKEDEV std wd0 random pf bpf ttyC0 tty00 )
 
 echo "Installing files."
 
@@ -335,5 +335,3 @@ rm -f /tmp/disklabel.$$
 echo "Done."
   
 exit 0
-
-
