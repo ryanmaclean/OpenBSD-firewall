@@ -1,4 +1,4 @@
-# $OpenBSD: services,v 1.89 2014/07/15 15:58:39 sthen Exp $
+# $OpenBSD: services,v 1.94 2015/07/27 11:02:39 sthen Exp $
 #
 # Network services, Internet style
 # https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -226,12 +226,16 @@ isisd		2608/tcp			# Quagga/Zebra
 netplan		2983/tcp			# netplan daemon
 eppc		3031/tcp			# Remote AppleEvents/PPC Toolbox
 eppc		3031/udp			# Remote AppleEvents/PPC Toolbox
-mysql		3306/tcp			# MySQL
-iapp		3517/tcp	802-11-iapp	# IEEE 802.11f IAPP
 iscsi		3260/tcp			# ISCSI
+mysql		3306/tcp			# MySQL
+rdp		3389/tcp			# Microsoft Remote Desktop Protocol
+iapp		3517/tcp	802-11-iapp	# IEEE 802.11f IAPP
 iapp		3517/udp	802-11-iapp	# IEEE 802.11f IAPP
 daap		3689/tcp			# Digital Audio Access Protocol
 daap		3689/udp			# Digital Audio Access Protocol
+svn		3690/tcp			# Subversion
+bfd-control	3784/udp			# BFD Control Protocol
+bfd-echo	3785/udp			# BFD Echo Protocol
 sieve		4190/tcp			# ManageSieve Protocol
 sieve		4190/udp			# ManageSieve Protocol
 krb524		4444/tcp			# Kerberos 5->4
@@ -245,8 +249,19 @@ rfe		5002/tcp			# Radio Free Ethernet
 rfe		5002/udp			# Actually uses UDP only
 sip		5060/tcp			# SIP
 sip		5060/udp			# SIP
+xmpp-client	5222/tcp			# XMPP Client Connection
+xmpp-server	5269/tcp			# XMPP Server Connection
+xmpp-bosh	5280/tcp			# BOSH
+presence	5298/tcp			# XMPP Link-Local Messaging
+presence	5298/udp			# XMPP Link-Local Messaging
+mdns		5353/tcp			# Multicast DNS
+mdns		5353/udp			# Multicast DNS
+mdnsresponder	5354/tcp			# Multicast DNS Responder IPC
+mdnsresponder	5354/udp			# Multicast DNS Responder IPC
 postgresql	5432/tcp			# PostgreSQL
 postgresql	5432/udp			# PostgreSQL
+rfb		5900/tcp	vnc		# Remote Framebuffer
+syslog-tls	6514/tcp			# syslog over TLS
 afs3-fileserver	7000/tcp			# AFS fileserver
 afs3-fileserver	7000/udp			# AFS fileserver
 afs3-callback	7001/tcp			# AFS callback server
@@ -267,6 +282,7 @@ afs3-update	7008/tcp			# AFS server to server update
 afs3-update	7008/udp			# AFS server to server update
 afs3-rmtsys	7009/tcp			# AFS remote cache manager service
 afs3-rmtsys	7009/udp			# AFS remote cache manager service
+puppet		8140/tcp			# Puppet master service
 ub-dns-control	8953/tcp			# unbound dns nameserver control
 git		9418/tcp			# git pack transfer service
 git		9418/udp			# git pack transfer service

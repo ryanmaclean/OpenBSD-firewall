@@ -24,7 +24,7 @@ mount_mfs -s 1024 -i 1024 swap /dev
 
 echo mfs: populating /dev...
 mv /tmp/MAKEDEV /dev/.
-( cd /dev && /dev/MAKEDEV std wd0 random crypto pf bpf bpf1 bpf2 ttyC0 tty00 ptm pty )
+( cd /dev && /dev/MAKEDEV std wd0 random pf bpf0 bpf1 bpf2 bpf3 ttyC0 tty00 ptm pty systrace )
 
 echo mfs: populating /tmp...
 mkdir /tmp/var

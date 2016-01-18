@@ -11,7 +11,6 @@ users:*:10:
 auth:*:11:
 games:*:13:
 staff:*:20:root
-smmsp:*:25:
 sshd:*:27:
 _portmap:*:28:
 _identd:*:29:
@@ -23,7 +22,9 @@ _sshagnt:*:34:
 _x11:*:35:
 utmp:*:45:
 _unbound:*:53:
-_lkm:*:61:
+_dpb:*:54:
+_pbuild:*:55:
+_pfetch:*:56:
 _spamd:*:62:
 _radius:*:63:
 _token:*:64:
@@ -32,7 +33,6 @@ crontab:*:66:
 www:*:67:
 _isakmpd:*:68:
 network:*:69:
-named:*:70:
 proxy:*:71:
 authpf:*:72:
 _syslogd:*:73:
@@ -64,6 +64,8 @@ _ldapd:*:100:
 _iked:*:101:
 _iscsid:*:102:
 _smtpq:*:103:
+_file:*:104:
+_radiusd:*:105:
 dialer:*:117:
 nogroup:*:32766:
 nobody:*:32767:
