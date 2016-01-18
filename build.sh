@@ -330,6 +330,7 @@ echo "Cleaning up."
 sync
 sleep 2
 umount $MOUNTPOINT
+vnconfig -u $DEVICE
 
 rm -f /tmp/disklabel.$$
 
