@@ -328,6 +328,7 @@ chmod 400 $MOUNTPOINT/etc/ssh/ssh_host_rsa_key
 echo "Cleaning up."
 
 sync
+sleep 2
 umount $MOUNTPOINT
 
 rm -f /tmp/disklabel.$$
