@@ -100,6 +100,8 @@ installboot -v -r $MOUNTPOINT -v $DEVICE /usr/mdec/biosboot /boot
 # eventually build a custom kernel first. Not for space reasons, but  
 # maybe security (security patches)
 
+echo "Installing kernel."
+
 cp -R /bsd $MOUNTPOINT/
 
 echo "Creating directory structure."
@@ -117,7 +119,7 @@ echo "Populating /dev filesystem with minimal set up startup devices."
 cp -R /dev/MAKEDEV $MOUNTPOINT/dev/.
 ( cd $MOUNTPOINT/dev && ./MAKEDEV std wd0 random pf bpf ttyC0 tty00 )
 
-echo "Installing files."
+echo "Installing userland."
 
 cp -R /sbin/init $MOUNTPOINT/sbin/.
 cp -R /bin/cat $MOUNTPOINT/bin/.
@@ -176,6 +178,7 @@ cp -R /sbin/sysctl $MOUNTPOINT/sbin/.
 cp -R /sbin/umount $MOUNTPOINT/sbin/.
 
 # dynamic binaries from here, find libraries and copy them too
+# at the end
 
 cp -R /usr/libexec/getty $MOUNTPOINT/usr/libexec
 cp -R /usr/libexec/ld.so $MOUNTPOINT/usr/libexec
@@ -237,7 +240,6 @@ cp -R /usr/bin/uptime $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/vi $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/wall $MOUNTPOINT/usr/bin/.   
 cp -R /usr/bin/zcat $MOUNTPOINT/usr/bin/.    
-
 
 echo "Installing additional files."
 
@@ -331,7 +333,6 @@ fi
 echo "Installing required shared libraries."
 
 for i in `ldd $MOUNTPOINT/{bin,sbin,usr/bin,usr/sbin}/* 2>/dev/null | grep /usr/lib | tr -s ' ' '\t' | cut -f 8 | sort | uniq`; do
-	echo $i
 	cp -R $i $MOUNTPOINT/usr/lib/.
 done
 rm $MOUNTPOINT/usr/lib/ld.so
