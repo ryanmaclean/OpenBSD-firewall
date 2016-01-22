@@ -189,8 +189,6 @@ cp -R /usr/sbin/dhcrelay $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/dig $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ftp-proxy $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/named $MOUNTPOINT/usr/sbin/.
-cp -R /usr/sbin/ntpctl $MOUNTPOINT/usr/sbin/.
-cp -R /usr/sbin/ntpd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/pwd_mkdb $MOUNTPOINT/usr/sbin/.
@@ -240,15 +238,6 @@ cp -R /usr/bin/vi $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/wall $MOUNTPOINT/usr/bin/.   
 cp -R /usr/bin/zcat $MOUNTPOINT/usr/bin/.    
 
-# copy libraries
-
-echo "Installing shared libraries."
-
-for i in `ldd $MOUNTPOINT/{bin,sbin,usr/bin,usr/sbin}/* 2>/dev/null | grep /usr/lib | tr -s ' ' '\t' | cut -f 8 | sort | uniq`; do
-	echo $i
-	cp -R $i $MOUNTPOINT/usr/lib/.
-done
-rm $MOUNTPOINT/usr/lib/ld.so
 
 echo "Installing additional files."
 
@@ -290,21 +279,42 @@ cp -R /usr/share/zoneinfo/Europe/Zurich $MOUNTPOINT/etc/localtime
 
 cp -R template/root/.profile $MOUNTPOINT/root/.
 
-echo "Installing specific configuration for $HOSTNAME."
+echo "Installing non-optional specific configuration for $HOSTNAME."
 
 cp -R config/$HOSTNAME/hosts $MOUNTPOINT/etc/.
 cp -R config/$HOSTNAME/networks $MOUNTPOINT/etc/.
-cp -R config/$HOSTNAME/dhclient.conf $MOUNTPOINT/etc/.
 cp -R config/$HOSTNAME/pf.conf $MOUNTPOINT/etc/.
 m4 -DHOSTNAME=$HOSTNAME template/etc/rc >  $MOUNTPOINT/etc/rc
+
+# depending on the existence of some config files for the specific build
+# we copy the configuration and the binaries (and scripts) to the flash
+# only if necessary
+
+echo "Installing optional specific configuration for $HOSTNAME."
+
+if test -f config/$HOSTNAME/dhclient.conf; then
+	cp -R config/$HOSTNAME/dhclient.conf $MOUNTPOINT/etc/.
+	cp -R /sbin/dhclient $MOUNTPOINT/sbin/.
+fi
+
+# when running a DHCP server for the local network
 if test -f config/$HOSTNAME/dhcpd.conf; then
 	cp -R config/$HOSTNAME/dhcpd.conf $MOUNTPOINT/etc/.
+	cp -R /usr/sbin/dhcpd $MOUNTPOINT/usr/sbin/.
+	cp -R template/usr/sbin/restart_dhcpd $MOUNTPOINT/usr/sbin/.
 fi
-cp -R config/$HOSTNAME/ntpd.conf $MOUNTPOINT/etc/.
+
+# synchronizing time is always a good idea
+if test -f config/$HOSTNAME/ntpd.conf; then
+	cp -R config/$HOSTNAME/ntpd.conf $MOUNTPOINT/etc/.
+	cp -R /usr/sbin/ntpctl $MOUNTPOINT/usr/sbin/.
+	cp -R /usr/sbin/ntpd $MOUNTPOINT/usr/sbin/.
+fi
 
 # when we want joe instead of vi (I do)
 if test -d config/$HOSTNAME/joe/; then
 	cp -R config/$HOSTNAME/joe $MOUNTPOINT/etc/.
+	cp -R /usr/local/bin/joe $MOUNTPOINT/usr/bin/jstar
 fi
 
 # when we run a DNS server (currently still bind)
@@ -314,6 +324,17 @@ fi
 if test -f config/$HOSTNAME/rndc.conf; then
 	cp -R config/$HOSTNAME/rndc.conf $MOUNTPOINT/etc/.
 fi
+
+# autodetect shared libraries needed for all the binaries installed before, then
+# copy them to the flash
+
+echo "Installing required shared libraries."
+
+for i in `ldd $MOUNTPOINT/{bin,sbin,usr/bin,usr/sbin}/* 2>/dev/null | grep /usr/lib | tr -s ' ' '\t' | cut -f 8 | sort | uniq`; do
+	echo $i
+	cp -R $i $MOUNTPOINT/usr/lib/.
+done
+rm $MOUNTPOINT/usr/lib/ld.so
 
 echo "Generating databases."
 
