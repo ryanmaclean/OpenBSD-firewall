@@ -334,6 +334,7 @@ if test -d config/$HOSTNAME/unbound/; then
 	cp -R /usr/sbin/unbound $MOUNTPOINT/usr/sbin/.
 	cp -R /usr/sbin/unbound-{checkconf,control-setup,anchor,control,host} $MOUNTPOINT/usr/sbin/.
 	unbound-control-setup -d $MOUNTPOINT/etc/unbound/etc
+	cp -R template/usr/sbin/restart_dns $MOUNTPOINT/usr/sbin/.
 fi
 
 # autodetect shared libraries needed for all the binaries installed before, then
