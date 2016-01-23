@@ -209,6 +209,7 @@ cp -R /usr/sbin/vipw $MOUNTPOINT/usr/sbin/.
 
 cp -R /usr/bin/crontab $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/du $MOUNTPOINT/usr/bin/.
+cp -R /usr/bin/find $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/grep $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/gzip $MOUNTPOINT/usr/bin/.
 # handy for debugging
@@ -237,6 +238,10 @@ cp -R /usr/bin/uniq $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/uptime $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/vi $MOUNTPOINT/usr/bin/.
 cp -R /usr/bin/wall $MOUNTPOINT/usr/bin/.   
+cp -R /usr/bin/xargs $MOUNTPOINT/usr/bin/.
+if test -f /usr/local/bin/wol; then
+	cp -R /usr/local/bin/wol $MOUNTPOINT/usr/bin/.
+fi
 cp -R /usr/bin/zcat $MOUNTPOINT/usr/bin/.    
 
 echo "Installing additional files."
