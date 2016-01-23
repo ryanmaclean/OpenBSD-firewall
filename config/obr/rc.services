@@ -5,7 +5,6 @@ chmod 0770 /tmp/var/nsd/{db,run,run/xfr}
 /usr/sbin/nsd
 
 echo unbound: starting DNS resolver..
-mkdir /tmp/var/etc
 cp -R /etc/unbound /tmp/var/unbound
 /usr/sbin/unbound
 
