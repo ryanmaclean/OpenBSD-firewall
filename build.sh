@@ -191,7 +191,6 @@ cp -R /usr/sbin/dev_mkdb $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/dhcrelay $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/dig $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ftp-proxy $MOUNTPOINT/usr/sbin/.
-cp -R /usr/sbin/named $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/pwd_mkdb $MOUNTPOINT/usr/sbin/.
@@ -322,9 +321,13 @@ if test -d config/$HOSTNAME/joe/; then
 	cp -R /usr/local/bin/joe $MOUNTPOINT/usr/bin/jstar
 fi
 
-# when we run a DNS server (currently still bind)
-if test -d config/$HOSTNAME/named/; then
-	cp -R config/$HOSTNAME/named $MOUNTPOINT/etc/.
+# when we run an authorative name server
+if test -d config/$HOSTNAME/nsd/; then
+	cp -R config/$HOSTNAME/nsd $MOUNTPOINT/etc/.
+	cp -R /usr/sbin/nsd $MOUNTPOINT/usr/sbin/.
+	cp -R /usr/sbin/unbound-{checkconf,checkzone,control,control-setup} $MOUNTPOINT/usr/sbin/.
+	nsd-control-setup -d $MOUNTPOINT/etc/nsd/etc
+	cp -R template/usr/sbin/restart_dns $MOUNTPOINT/usr/sbin/.
 fi
 
 # when we run a DNS resolver

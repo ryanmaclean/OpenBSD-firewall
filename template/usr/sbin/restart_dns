@@ -1,8 +1,21 @@
 #!/bin/sh
 
+echo "nsd: stopping ..."
+pkill nsd
+sleep 3
+
 echo "unbound: stopping ..."
 pkill unbound
 sleep 3
+
+echo "nsd: starting authorative name server ..."
+rm -rf /tmp/var/nsd
+cp -R /etc/nsd /tmp/var/nsd
+chown -R root:_nsd /tmp/var/nsd/{db,etc,run}
+chmod 0770 /tmp/var/nsd/{db,run,run/xfr}
+
+echo "nsd: restarting ..."
+/usr/sbin/nsd
 
 echo "unbound: redeploy from persistent /etc/unbound to /var/unboud ..."
 rm -rf /tmp/var/unbound

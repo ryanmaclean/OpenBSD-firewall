@@ -1,7 +1,8 @@
-echo named: starting Bind name server..
-#cp -R /etc/named /tmp/var/named
-#chown -R root:named /tmp/var/named
-#/usr/sbin/named
+echo nsd: starting authorative name server..
+cp -R /etc/nsd /tmp/var/nsd
+chown -R root:_nsd /tmp/var/nsd/{db,etc,run}
+chmod 0770 /tmp/var/nsd/{db,run,run/xfr}
+/usr/sbin/nsd
 
 echo unbound: starting DNS resolver..
 mkdir /tmp/var/etc
