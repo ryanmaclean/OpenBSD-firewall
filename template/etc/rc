@@ -49,8 +49,6 @@ mkdir /tmp/var/cron/atjobs
 cp -R /etc/tabs /tmp/var/cron/tabs
 mkdir /tmp/var/tmp/vi.recover
 mkdir /tmp/var/etc
-cp -R /etc/named /tmp/var/named
-chown -R root:named /tmp/var/named
 
 echo store boot dmesg...
 dmesg > /var/run/dmesg.boot

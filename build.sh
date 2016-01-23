@@ -196,8 +196,6 @@ cp -R /usr/sbin/ospfctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/ospfd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/pwd_mkdb $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/rdate $MOUNTPOINT/usr/sbin/.
-cp -R /usr/sbin/rndc $MOUNTPOINT/usr/sbin/.
-cp -R /usr/sbin/rndc-confgen $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/sensorsd $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/snmpctl $MOUNTPOINT/usr/sbin/.
 cp -R /usr/sbin/snmpd $MOUNTPOINT/usr/sbin/.
@@ -323,8 +321,13 @@ fi
 if test -d config/$HOSTNAME/named/; then
 	cp -R config/$HOSTNAME/named $MOUNTPOINT/etc/.
 fi
-if test -f config/$HOSTNAME/rndc.conf; then
-	cp -R config/$HOSTNAME/rndc.conf $MOUNTPOINT/etc/.
+
+# when we run a DNS resolver
+if test -d config/$HOSTNAME/unbound/; then
+	cp -R config/$HOSTNAME/unbound $MOUNTPOINT/etc/.
+	cp -R /usr/sbin/unbound $MOUNTPOINT/usr/sbin/.
+	cp -R /usr/sbin/unbound-{checkconf,control-setup,anchor,control,host} $MOUNTPOINT/usr/sbin/.
+	unbound-control-setup -d $MOUNTPOINT/etc/unbound/etc
 fi
 
 # autodetect shared libraries needed for all the binaries installed before, then

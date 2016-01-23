@@ -1,5 +1,12 @@
 echo named: starting Bind name server..
-/usr/sbin/named
+#cp -R /etc/named /tmp/var/named
+#chown -R root:named /tmp/var/named
+#/usr/sbin/named
+
+echo unbound: starting DNS resolver..
+mkdir /tmp/var/etc
+cp -R /etc/unbound /tmp/var/unbound
+/usr/sbin/unbound
 
 echo dhcp: starting DHCP server...
 touch /var/db/dhcpd.leases
