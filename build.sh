@@ -321,12 +321,24 @@ if test -d config/$HOSTNAME/joe/; then
 	cp -R /usr/local/bin/joe $MOUNTPOINT/usr/bin/jstar
 fi
 
-# when we run an authorative name server
-if test -d config/$HOSTNAME/nsd/; then
-	cp -R config/$HOSTNAME/nsd $MOUNTPOINT/etc/.
+# when we run an authorative name server for local DNS spoofing,
+# split horizon entries and we don't like to stuff data from
+# zone files into unbound's configuration as local data
+if test -d config/$HOSTNAME/nsd-internal/; then
+	cp -R config/$HOSTNAME/nsd-internal $MOUNTPOINT/etc/.
 	cp -R /usr/sbin/nsd $MOUNTPOINT/usr/sbin/.
 	cp -R /usr/sbin/nsd-{checkconf,checkzone,control,control-setup} $MOUNTPOINT/usr/sbin/.
-	nsd-control-setup -d $MOUNTPOINT/etc/nsd/etc
+	nsd-control-setup -d $MOUNTPOINT/etc/nsd-internal/etc
+	cp -R template/usr/sbin/restart_dns $MOUNTPOINT/usr/sbin/.
+fi
+
+# when we run an authorative name server for public zones (in this
+# case one DNS master and buddyns as public slaves)
+if test -d config/$HOSTNAME/nsd-external/; then
+	cp -R config/$HOSTNAME/nsd-external $MOUNTPOINT/etc/.
+	cp -R /usr/sbin/nsd $MOUNTPOINT/usr/sbin/.
+	cp -R /usr/sbin/nsd-{checkconf,checkzone,control,control-setup} $MOUNTPOINT/usr/sbin/.
+	nsd-control-setup -d $MOUNTPOINT/etc/nsd-external/etc
 	cp -R template/usr/sbin/restart_dns $MOUNTPOINT/usr/sbin/.
 fi
 
@@ -361,6 +373,8 @@ ssh-keygen -b 2048 -t rsa -f $MOUNTPOINT/etc/ssh/ssh_host_rsa_key -N ''
 chmod 400 $MOUNTPOINT/etc/ssh/ssh_host_rsa_key
 
 echo "Cleaning up."
+
+find $MOUNTPOINT -name .gitkeep -exec rm {} \;
 
 sync
 sleep 2

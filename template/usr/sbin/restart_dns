@@ -8,14 +8,17 @@ echo "unbound: stopping ..."
 pkill unbound
 sleep 3
 
-echo "nsd: starting authorative name server ..."
-rm -rf /tmp/var/nsd
-cp -R /etc/nsd /tmp/var/nsd
-chown -R root:_nsd /tmp/var/nsd/{db,etc,run}
-chmod 0770 /tmp/var/nsd/{db,run,run/xfr}
+echo "nsd: redeploy from persistent /etc/nsd to /var/nsd ..."
+for view in internal external; do
+	rm -rf /tmp/var/nsd-$view
+	cp -R /etc/nsd-$view /tmp/var/nsd-$view
+	chown -R root:_nsd /tmp/var/nsd-$view/{db,etc,run}
+	chmod 0770 /tmp/var/nsd-$view/{db,run,run/xfr}
+done
 
 echo "nsd: restarting ..."
-/usr/sbin/nsd
+/usr/sbin/nsd -c /var/nsd-internal/etc/nsd.conf
+/usr/sbin/nsd -c /var/nsd-external/etc/nsd.conf
 
 echo "unbound: redeploy from persistent /etc/unbound to /var/unboud ..."
 rm -rf /tmp/var/unbound

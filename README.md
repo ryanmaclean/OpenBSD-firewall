@@ -46,10 +46,14 @@ dd if=[machine].img | ssh [machine] "dd of=/dev/wd1c"
 - config: machine-specific configuration (e.g. pf.conf)
 - hardware: flash disk geometry for specific machines
 
+## News
+
+- updated to OpenBSD 5.8
+- example shows how to use two nsd's and one unbound to replace a split horizon
+  configuration formerly done with bind views
+
 ## Roadmap
 
-- update to OpenBSD 5.8
-  - this mainly means moving away from `bind` to `nsd` and `unbound`
 - improve update process, preferably an in-situ update via TFTP
 - deal with logging
   - sensord

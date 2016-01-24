@@ -1,8 +1,11 @@
 echo nsd: starting authorative name server..
-cp -R /etc/nsd /tmp/var/nsd
-chown -R root:_nsd /tmp/var/nsd/{db,etc,run}
-chmod 0770 /tmp/var/nsd/{db,run,run/xfr}
-/usr/sbin/nsd
+for view in internal external; do
+	cp -R /etc/nsd-$view /tmp/var/nsd-$view
+	chown -R root:_nsd /tmp/var/nsd-$view/{db,etc,run}
+	chmod 0770 /tmp/var/nsd-$view/{db,run,run/xfr}
+done
+/usr/sbin/nsd -c /var/nsd-internal/etc/nsd.conf
+/usr/sbin/nsd -c /var/nsd-external/etc/nsd.conf
 
 echo unbound: starting DNS resolver..
 cp -R /etc/unbound /tmp/var/unbound
