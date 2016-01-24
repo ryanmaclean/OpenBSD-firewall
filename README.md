@@ -2,13 +2,15 @@
 
 ## History
 
-Earlier versions of this project was used at Eurospider by 
+Earlier versions of this project were used at Eurospider by 
 Mihai Barbos (https://github.com/mbarbos) to build 
 corporate-style firewalls with Portwell hardware.
 
 I (https://github.com/andreasbaumann/) merely collected 
 the ideas and updated them to new versions of OpenBSD
 and cleaned up the repository a little bit. :-)
+
+And I'm it for personal use at home.
 
 ## Install
 
@@ -18,22 +20,22 @@ Check disk geometry of flash with:
 disklabel wd0
 ```
 
-Adapt disk geometry in `hardware/&lt;machine&gt;/flash_params`.
+Adapt disk geometry in `hardware/[machine]/flash_params`.
 
 ```
-Run 'build.sh &lt;machine&gt;'.
+Run 'build.sh [machine] [flash_profile]'.
 ```
 
 Transfer image to flash:
 
 ```
-dd if=&lt;machine&gt;.image of=/dev/wd0c
+dd if=[machine].img of=/dev/wd0c
 ```
 
 or remotely (after booting from floppy dongle or from hard disk):
 
 ```
-dd if=&lt;machine&gt;.image | ssh &lt;machine&gt; "dd of=/dev/wd1c"
+dd if=[machine].img | ssh [machine] "dd of=/dev/wd1c"
 ```
 
 ## Directory layout
@@ -41,7 +43,7 @@ dd if=&lt;machine&gt;.image | ssh &lt;machine&gt; "dd of=/dev/wd1c"
 - build.sh: central build script
 - doc: various documentation
 - template: common files with variables being substituted and then copied to the image
-- config: machine-specific confiugration (e.g. pf.conf)
+- config: machine-specific configuration (e.g. pf.conf)
 - hardware: flash disk geometry for specific machines
 
 ## Roadmap
@@ -52,7 +54,7 @@ dd if=&lt;machine&gt;.image | ssh &lt;machine&gt; "dd of=/dev/wd1c"
 - deal with logging
   - sensord
   - remote syslog
-- various playgronds
+- various playgrounds
   - ospf, pfsync, carp
     
 ## Other Embedded OpenBSD projects
