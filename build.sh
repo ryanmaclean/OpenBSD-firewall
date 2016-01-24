@@ -325,7 +325,7 @@ fi
 if test -d config/$HOSTNAME/nsd/; then
 	cp -R config/$HOSTNAME/nsd $MOUNTPOINT/etc/.
 	cp -R /usr/sbin/nsd $MOUNTPOINT/usr/sbin/.
-	cp -R /usr/sbin/unbound-{checkconf,checkzone,control,control-setup} $MOUNTPOINT/usr/sbin/.
+	cp -R /usr/sbin/nsd-{checkconf,checkzone,control,control-setup} $MOUNTPOINT/usr/sbin/.
 	nsd-control-setup -d $MOUNTPOINT/etc/nsd/etc
 	cp -R template/usr/sbin/restart_dns $MOUNTPOINT/usr/sbin/.
 fi
