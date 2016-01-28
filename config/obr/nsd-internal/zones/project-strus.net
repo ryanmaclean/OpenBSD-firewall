@@ -3,7 +3,7 @@
 $TTL 60
 
 @		IN	SOA	ns.project-strus.net. admin.project-strus.net. (
-				2015120100	; serial
+				2016012800	; serial
 				3h		; refresh
 				15m		; retry
 				2w		; expire
@@ -20,6 +20,5 @@ $ORIGIN project-strus.net.
 
 ns			A	192.168.1.1
 
-www			A	77.244.243.43
-demo			CNAME	xs04.eurospider.ch.
+demo			A	192.168.1.15
 ellokal			A	192.168.1.15
