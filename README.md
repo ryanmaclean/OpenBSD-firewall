@@ -102,11 +102,13 @@ others:
 
 ## Hardware
 
-At Eurospider we have Portwell NAR-2054 (3 and 5 ethernet port versions), some
+At Eurospider we had Portwell NAR-2054 (3 and 5 ethernet port versions), some
 have VGA ports and USBs, others only COMs, so make sure we always
 get boot output on COM.
 
-At Home I'm running it on an ALIX.2D13 with 3 LAN ports and a WLAN card.
+Now at Eurospider we run it on a Soekris net6501.
+
+At home I'm running it on an ALIX.2D13 with 3 LAN ports and a WLAN card.
 
 ## VirtualBox build and test
 
