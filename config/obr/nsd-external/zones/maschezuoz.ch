@@ -3,7 +3,7 @@
 $TTL 60
 
 @		IN	SOA	ns.maschezuoz.ch. admin.maschezuoz.ch. (
-				2015100901	; serial
+				2016062200	; serial
 				3h		; refresh
 				15m		; retry
 				2w		; expire
@@ -11,8 +11,8 @@ $TTL 60
 			)
 
 	IN	NS		d.ns.buddyns.com.
-	IN	NS		c.ns.buddyns.com.
 	IN	NS		f.ns.buddyns.com.
+	IN	NS		h.ns.buddyns.com.
 	IN	MX	10	smtp.maschezuoz.ch.
 	IN	TXT		"v=spf1 mx ip4:83.150.2.48/24 ~all"
 

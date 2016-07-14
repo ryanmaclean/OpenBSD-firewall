@@ -3,7 +3,7 @@
 $TTL 60
 
 @		IN	SOA	ns.project-strus.net. admin.project-strus.net. (
-				2016012800	; serial
+				2016031602	; serial
 				3h		; refresh
 				15m		; retry
 				2w		; expire
@@ -20,5 +20,9 @@ $ORIGIN project-strus.net.
 
 ns			A	192.168.1.1
 
-demo			A	192.168.1.15
-ellokal			A	192.168.1.15
+www			A	77.244.243.43
+;ellokal			A	192.168.1.15
+
+$ORIGIN .
+
+demo.project-strus.net CNAME   strus.selfhost.eu
