@@ -6,6 +6,8 @@ Earlier versions of this project were used at Eurospider by
 Mihai Barbos (https://github.com/mbarbos) to build 
 corporate-style firewalls with Portwell hardware.
 
+Newer versions run on Soekris hardware now.
+
 I (https://github.com/andreasbaumann/) merely collected 
 the ideas and updated them to new versions of OpenBSD
 and cleaned up the repository a little bit. :-)
