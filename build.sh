@@ -106,7 +106,7 @@ cp -R /bsd $MOUNTPOINT/
 
 echo "Creating directory structure."
 
-mkdir $MOUNTPOINT/{bin,etc,sbin,dev,usr,usr/libexec,usr/libexec/auth,usr/sbin,usr/bin,usr/lib,usr/share,usr/share/misc,root,etc/ssh}
+mkdir $MOUNTPOINT/{bin,etc,sbin,dev,usr,usr/libexec,usr/libexec/auth,usr/sbin,usr/bin,usr/lib,usr/share,usr/share/misc,usr/share/terminfo,root,etc/ssh}
 chmod 0755 $MOUNTPOINT/{bin,etc,sbin,dev,usr,usr/libexec,usr/libexec/auth,usr/sbin,usr/bin,usr/lib,etc/ssh}
 chmod 0700 $MOUNTPOINT/root
 
@@ -257,7 +257,8 @@ cp -R /usr/libexec/auth/login_skey $MOUNTPOINT/usr/libexec/auth/.
 
 ln -s /tmp/var $MOUNTPOINT/var
 
-cp -R /usr/share/misc/terminfo.db $MOUNTPOINT/usr/share/misc/.
+cp -R /usr/share/misc/termcap $MOUNTPOINT/usr/share/misc/.
+cp -R /usr/share/terminfo/* $MOUNTPOINT/usr/share/terminfo/.
 
 echo "Installing common configuration."
 

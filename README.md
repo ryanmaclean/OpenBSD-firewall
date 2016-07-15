@@ -50,6 +50,10 @@ dd if=[machine].img | ssh [machine] "dd of=/dev/wd1c"
 
 ## News
 
+15.7.2016:
+- updated to OpenBSD 5.9
+
+17.1.2016:
 - updated to OpenBSD 5.8
 - example shows how to use two nsd's and one unbound to replace a split horizon
   configuration formerly done with bind views

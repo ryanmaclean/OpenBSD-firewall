@@ -2,7 +2,6 @@ root:$2b$09$GHa8WN8LspPWFSJ2Itqya..N/NGvaVyHc.Q30lQl8E3CPa19evnJS:0:0:daemon:0:0
 daemon:*:1:1::0:0:The devil himself:/root:/sbin/nologin
 operator:*:2:5::0:0:System &:/operator:/sbin/nologin
 bin:*:3:7::0:0:Binaries Commands and Source:/:/sbin/nologin
-smmsp:*:25:25::0:0:Sendmail Message Submission Program:/nonexistent:/sbin/nologin
 sshd:*:27:27::0:0:sshd privsep:/var/empty:/sbin/nologin
 _portmap:*:28:28::0:0:portmap:/var/empty:/sbin/nologin
 _identd:*:29:29::0:0:identd:/var/empty:/sbin/nologin
@@ -48,3 +47,14 @@ _iscsid:*:102:102::0:0:iSCSI Daemon:/var/empty:/sbin/nologin
 _smtpq:*:103:103::0:0:SMTP Daemon:/var/empty:/sbin/nologin
 nobody:*:32767:32767::0:0:Unprivileged user:/nonexistent:/sbin/nologin
 _rsync:*************:669:669:daemon:0:0:rsync Daemon:/var/empty:/sbin/nologin
+_dpb:*:54:54::0:0:dpb privsep:/var/empty:/sbin/nologin
+_pbuild:*:55:55:pbuild:0:0:dpb build user:/nonexistent:/sbin/nologin
+_pfetch:*:56:56::0:0:dpb fetch user:/nonexistent:/sbin/nologin
+_file:*:104:104::0:0:file privsep:/var/empty:/sbin/nologin
+_radiusd:*:105:105::0:0:RADIUS Daemon:/var/empty:/sbin/nologin
+_rebound:*:52:52::0:0:Rebound DNS Daemon:/var/empty:/sbin/nologin
+_eigrpd:*:106:106::0:0:EIGRP Daemon:/var/empty:/sbin/nologin
+_vmd:*:107:107::0:0:VM Daemon:/var/empty:/sbin/nologin
+_tftp_proxy:*:108:108::0:0:tftp proxy daemon:/nonexistent:/sbin/nologin
+_ftp_proxy:*:109:109::0:0:ftp proxy daemon:/nonexistent:/sbin/nologin
+_sndiop:*:110:110::0:0:sndio privileged user:/var/empty:/sbin/nologin

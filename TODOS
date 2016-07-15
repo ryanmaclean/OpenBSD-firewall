@@ -8,3 +8,6 @@
 - sensors
 - SNMP
 - /etc/named
+- sshd
+  - which key to use for sshd? ssh_host_rsa_key is commented out in 5.9
+
