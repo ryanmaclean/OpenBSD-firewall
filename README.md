@@ -12,7 +12,7 @@ I (https://github.com/andreasbaumann/) merely collected
 the ideas and updated them to new versions of OpenBSD
 and cleaned up the repository a little bit. :-)
 
-And I'm it for personal use at home.
+And I'm using it at home.
 
 ## Install
 
