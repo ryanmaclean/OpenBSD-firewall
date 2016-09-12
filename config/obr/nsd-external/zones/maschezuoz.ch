@@ -3,7 +3,7 @@
 $TTL 60
 
 @		IN	SOA	ns.maschezuoz.ch. admin.maschezuoz.ch. (
-				2016062200	; serial
+				2016090301	; serial
 				3h		; refresh
 				15m		; retry
 				2w		; expire
