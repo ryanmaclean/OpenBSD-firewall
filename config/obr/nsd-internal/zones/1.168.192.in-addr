@@ -5,7 +5,7 @@ $ORIGIN .
 $TTL 60
 
 1.168.192.in-addr.arpa	IN SOA	obr.lan. root.obr.lan. (
-				2016010800	; serial
+				2016091800	; serial
 				3h		; refresh
 				15m		; retry
 				2w		; expire
@@ -24,13 +24,13 @@ $ORIGIN 1.168.192.in-addr.arpa.
 8		IN	PTR	eeepc.lan.
 9		IN	PTR	eurodata.lan.
 10		IN	PTR	eeepc-wifi.lan.
-12		IN	PTR	euroserver.lan.
+12		IN	PTR	eurobuild3.lan.
 13		IN	PTR	europa10.lan.
 14		IN	PTR	eurobuild1.lan.
 15		IN	PTR	euroweb.lan.
-16		IN	PTR	europrint.lan.
+16		IN	PTR	euroserver.lan.
 17		IN	PTR	eurohp1.lan.
-18		IN	PTR	eurobuild3.lan.
+18		IN	PTR	eurobuild4.lan.
 19		IN	PTR	euroobr.lan.
 253		IN	PTR	wrt2.lan.
 254		IN	PTR	wrt1.lan.
